@@ -170,9 +170,7 @@ Map<String, dynamic> _$IRevocationLinksToJson(IRevocationLinks instance) =>
 
 IAttestationLegacy _$IAttestationLegacyFromJson(Map<String, dynamic> json) {
   return IAttestationLegacy(
-      data: IAttestationData.fromJson(json['data'] as Map<String, dynamic>),
-      type: IAttestationType.fromJson(json['type'] as Map<String, dynamic>),
-      aux: json['aux'] as String);
+      data: json['data'], type: json['type'], aux: json['aux']);
 }
 
 Map<String, dynamic> _$IAttestationLegacyToJson(IAttestationLegacy instance) =>
@@ -196,6 +194,18 @@ Map<String, dynamic> _$IAttestationNodeToJson(IAttestationNode instance) =>
       'type': instance.type,
       'aux': instance.aux,
       'link': instance.link
+    };
+
+IDataNode _$IDataNodeFromJson(Map<String, dynamic> json) {
+  return IDataNode(
+      IAttestationNode.fromJson(
+          json['attestationNode'] as Map<String, dynamic>),
+      json['signedAttestation'] as String);
+}
+
+Map<String, dynamic> _$IDataNodeToJson(IDataNode instance) => <String, dynamic>{
+      'attestationNode': instance.attestationNode,
+      'signedAttestation': instance.signedAttestation
     };
 
 IDataNodeLegacy _$IDataNodeLegacyFromJson(Map<String, dynamic> json) {

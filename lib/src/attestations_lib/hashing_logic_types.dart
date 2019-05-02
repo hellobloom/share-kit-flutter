@@ -229,6 +229,20 @@ class IAttestationNode extends IAttestationLegacy implements JsonEncodable {
 }
 
 @JsonSerializable(nullable: false)
+class IDataNode {
+  IAttestationNode attestationNode;
+  String signedAttestation;
+
+  IDataNode(this.attestationNode, this.signedAttestation);
+
+  factory IDataNode.fromJson(Map<String, dynamic> json) =>
+      _$IDataNodeFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$IDataNodeToJson(this);
+}
+
+@JsonSerializable(nullable: false)
 class IDataNodeLegacy implements JsonEncodable {
   IAttestationNode attestationNode;
   String signedAttestation;
