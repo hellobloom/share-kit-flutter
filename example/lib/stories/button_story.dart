@@ -5,6 +5,7 @@ import 'package:share_kit/src/attestations_lib/attestation_types.dart';
 import 'package:share_kit/src/types.dart';
 import 'package:storyboard/storyboard.dart';
 
+/// Basic button demo
 class ButtonStory extends Story {
   static final defaultData = RequestData(
     action: Action.request_attestation_data,

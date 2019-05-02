@@ -6,19 +6,21 @@ import 'package:storyboard/storyboard.dart';
 
 import 'button_story.dart';
 
+/// The request button will be removed on tap
 class ButtonRemoveOnTapStory extends Story {
   @override
-  List<Widget> get storyContent => [_ButtonRemoveStoryWidget()];
+  List<Widget> get storyContent => [_ButtonRemoveOnTapStoryWidget()];
 }
 
-class _ButtonRemoveStoryWidget extends StatefulWidget {
+class _ButtonRemoveOnTapStoryWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ButtonRemoveStoryState();
+    return _ButtonRemoveOnTapStoryState();
   }
 }
 
-class _ButtonRemoveStoryState extends State<_ButtonRemoveStoryWidget> {
+class _ButtonRemoveOnTapStoryState
+    extends State<_ButtonRemoveOnTapStoryWidget> {
   bool _requestButtonRemoved = false;
 
   @override
