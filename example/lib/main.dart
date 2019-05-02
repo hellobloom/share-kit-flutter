@@ -3,5 +3,5 @@ import 'package:storyboard/storyboard.dart';
 
 import 'stories/stories.dart';
 
-void main() =>
-    runApp(new MaterialApp(home: new Storyboard([new ButtonStory()])));
+void main() => runApp(new MaterialApp(
+    home: new Storyboard([ButtonStory(), ButtonRemoveOnTapStory()])));

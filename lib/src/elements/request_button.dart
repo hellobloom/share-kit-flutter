@@ -59,17 +59,22 @@ class RequestButton extends StatelessWidget {
   final String buttonCallbackUrl;
   final double width;
   final double height;
+  final VoidCallback requestButtonOnTapCallback;
 
   RequestButton(
       {@required this.requestData,
       @required this.buttonCallbackUrl,
       this.width = 300,
-      this.height = 50});
+      this.height = 50,
+      this.requestButtonOnTapCallback});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: _onTap,
+        onTap: () async {
+          await onTap();
+          requestButtonOnTapCallback();
+        },
         child: Container(
             height: this.height,
             width: this.width,
@@ -128,7 +133,8 @@ class RequestButton extends StatelessWidget {
             )));
   }
 
-  _onTap() async {
+  @protected
+  onTap() async {
     var url =
         'https://bloom.co/download?request=${base64.encode(utf8.encode(jsonEncode(requestData.toJson())))}&callback_url=${Uri.encodeComponent(buttonCallbackUrl)}';
     if (await canLaunch(url)) {

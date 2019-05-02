@@ -23,6 +23,7 @@ dependencies:
   json_serializable: ^2.0.0
   flutter_svg: ^0.12.4
   url_launcher: ^5.0.2
+  qr: ^1.0.1
 
 dev_dependencies:
   flutter_test:
