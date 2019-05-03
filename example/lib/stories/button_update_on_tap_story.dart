@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:share_kit/share_kit.dart' show RequestButton, RequestData;
 import 'package:storyboard/storyboard.dart';
 
-import 'button_story.dart';
+import 'defaults.dart';
 
 /// The request token is updated every time on tap
 class ButtonUpdateOnTapStory extends Story {
@@ -26,7 +26,7 @@ class _ButtonUpdateOnTapStoryWidget extends StatefulWidget {
 
 class _ButtonUpdateOnTapStoryState
     extends State<_ButtonUpdateOnTapStoryWidget> {
-  RequestData _requestData = ButtonStory.defaultData;
+  RequestData _requestData = Defaults.defaultData;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _ButtonUpdateOnTapStoryState
       children: <Widget>[
         RequestButton(
           requestData: _requestData,
-          buttonCallbackUrl: ButtonStory.buttonCallbackUrl,
+          buttonCallbackUrl: Defaults.buttonCallbackUrl,
           requestButtonOnTapCallback: () => setState(() {
                 _requestData.token =
                     hex.encode(DartRandom(Random.secure()).nextBytes(32));

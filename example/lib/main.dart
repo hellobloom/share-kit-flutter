@@ -4,5 +4,13 @@ import 'package:storyboard/storyboard.dart';
 import 'stories/stories.dart';
 
 void main() => runApp(new MaterialApp(
-    home: new Storyboard(
-        [ButtonStory(), ButtonRemoveOnTapStory(), ButtonUpdateOnTapStory()])));
+        home: new Storyboard([
+      ButtonStory(),
+      ButtonRemoveOnTapStory(),
+      ButtonUpdateOnTapStory(),
+      QrCodeBaseStory(),
+      QrCodeSizeStory(),
+      QrCodeColorsStory(),
+      QrCodeShowLogoOnTapStory(),
+      QrCodeUpdatingStory()
+    ])));

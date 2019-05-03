@@ -1,14 +1,14 @@
 import 'dart:core';
+import 'dart:ui';
 
 import 'package:convert/convert.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:share_kit/src/attestations_lib/hashing_logic.dart'
-    as HashingLogic;
-import 'package:share_kit/src/attestations_lib/hashing_logic_types.dart'
-    as HashingLogicTypes;
+import 'package:merkletree/merkletree.dart' show MerkleProof;
+import 'package:qr/qr.dart';
 import 'package:share_kit/src/attestations_lib/attestation_types.dart'
     show AttestationTypeID;
-import 'package:merkletree/merkletree.dart' show MerkleProof;
+import 'package:share_kit/src/attestations_lib/hashing_logic_types.dart'
+    as HashingLogicTypes;
 
 part 'types.g.dart';
 
@@ -44,39 +44,35 @@ class RequestData {
   Map<String, dynamic> toJson() => _$RequestDataToJson(this);
 }
 
-enum ErrorCorrectionLevel { L, M, Q, H }
-
-final Map<ErrorCorrectionLevel, int> ErrorCorrectionLevelId =
-    Map.unmodifiable(Map.from({
-  ErrorCorrectionLevel.L: 1,
-  ErrorCorrectionLevel.M: 0,
-  ErrorCorrectionLevel.Q: 3,
-  ErrorCorrectionLevel.H: 2
-}));
-
 class QROptions {
-  ErrorCorrectionLevel ecLevel;
-  num size;
-  String bgColor;
-  String fgColor;
+  int ecLevel;
+  double size;
+  Color bgColor;
+  Color fgColor;
   bool hideLogo;
-  num padding;
+  double padding;
   String logoImage;
-  num logoWidth;
-  num logoHeight;
-  num logoOpacity;
+  double logoWidth;
+  double logoHeight;
+  double logoOpacity;
 
   QROptions(
-      {this.ecLevel,
-      this.size,
-      this.bgColor,
-      this.fgColor,
-      this.hideLogo,
-      this.padding,
+      {int ecLevel,
+      double size,
+      Color bgColor,
+      Color fgColor,
+      bool hideLogo,
+      double padding,
       this.logoImage,
       this.logoWidth,
       this.logoHeight,
-      this.logoOpacity});
+      this.logoOpacity})
+      : this.ecLevel = ecLevel ?? QrErrorCorrectLevel.L,
+        this.size = size ?? 128.0,
+        this.bgColor = bgColor ?? Color(0xfffffff),
+        this.fgColor = fgColor ?? Color(0xff6067f1),
+        this.hideLogo = hideLogo ?? false,
+        this.padding = padding ?? 0;
 }
 
 // START - DO NOT EXPORT

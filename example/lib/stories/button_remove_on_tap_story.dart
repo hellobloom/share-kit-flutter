@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:share_kit/share_kit.dart';
 import 'package:storyboard/storyboard.dart';
 
+import 'defaults.dart';
 import 'button_story.dart';
 
 /// The request button will be removed on tap
@@ -29,8 +30,8 @@ class _ButtonRemoveOnTapStoryState
       children: <Widget>[
         Visibility(
           child: RequestButton(
-            requestData: ButtonStory.defaultData,
-            buttonCallbackUrl: ButtonStory.buttonCallbackUrl,
+            requestData: Defaults.defaultData,
+            buttonCallbackUrl: Defaults.buttonCallbackUrl,
             requestButtonOnTapCallback: () => setState(() {
                   _requestButtonRemoved = true;
                 }),
