@@ -9,8 +9,9 @@ void main() {
   testWidgets('renders the qr code', (WidgetTester tester) async {
     await tester.pumpWidget(_TestApp());
     await tester.pumpAndSettle();
+    await expectLater(find.byType(RequestQRCode), findsOneWidget);
     await expectLater(
-        find.byType(_TestApp),
+        find.byType(RequestQRCode),
         matchesGoldenFile(
             'golden/request_qr_code_test/renders_the_qr_code.png'));
   });

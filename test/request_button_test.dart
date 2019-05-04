@@ -10,7 +10,7 @@ void main() {
     await tester.pumpWidget(_TestApp());
     await tester.pumpAndSettle();
     expect(find.byType(RequestButton), findsOneWidget);
-    await expectLater(find.byType(_TestApp),
+    await expectLater(find.byType(RequestButton),
         matchesGoldenFile('golden/request_button_test/renders_a_button.png'));
   });
 
@@ -34,8 +34,7 @@ void main() {
     await tester.pumpAndSettle();
     _TestAppState testAppState = tester.state(find.byType(_TestApp));
     expect(testAppState.requestButtonDeleted, true);
-    await expectLater(find.byType(_TestApp),
-        matchesGoldenFile('golden/request_button_test/deletes_the_button.png'));
+    await expectLater(find.byType(RequestButton), findsNothing);
   });
 }
 
@@ -79,24 +78,33 @@ class _TestAppState extends State<_TestApp> {
     return MaterialApp(
         home: Scaffold(
             body: Center(
-                child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Visibility(
-            visible: !requestButtonDeleted,
-            child: RequestButton(
-              key: keyRequestButton,
-              requestData: requestData,
-              buttonCallbackUrl: buttonCallbackUrl,
-              urlLauncher: TestUrlLauncher(),
-            )),
-        FlatButton(
-            key: keyUpdate, child: Text("Update"), onPressed: _onUpdatePressed),
-        FlatButton(
-            key: keyDelete, child: Text("Delete"), onPressed: _onDeletePressed),
-      ],
-    ))));
+                child: Container(
+                    width: 500,
+                    height: 500,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Visibility(
+                            visible: !requestButtonDeleted,
+                            child: RequestButton(
+                              key: keyRequestButton,
+                              requestData: requestData,
+                              buttonCallbackUrl: buttonCallbackUrl,
+                              urlLauncher: TestUrlLauncher(),
+                            )),
+                        GestureDetector(
+                            key: keyUpdate,
+                            child: Container(
+                                width: 20, height: 20, child: Text("")),
+                            onTap: _onUpdateTap),
+                        GestureDetector(
+                            key: keyDelete,
+                            child: Container(
+                                width: 20, height: 20, child: Text("")),
+                            onTap: _onDeleteTap)
+                      ],
+                    )))));
   }
 
   @override
@@ -105,13 +113,13 @@ class _TestAppState extends State<_TestApp> {
     print('updated widget');
   }
 
-  _onUpdatePressed() {
+  _onUpdateTap() {
     setState(() {
       buttonCallbackUrl = "http://updated.com";
     });
   }
 
-  _onDeletePressed() {
+  _onDeleteTap() {
     setState(() {
       requestButtonDeleted = true;
     });
