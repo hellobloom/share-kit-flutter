@@ -7,3 +7,11 @@ Flutter implementation of [Share Kit](https://github.com/hellobloom/share-kit#re
 ## Usage and demo
 
 Check [example](./example) to see the story book of this package.  
+
+## Testing
+
+Run
+
+```bash
+flutter test
+```
