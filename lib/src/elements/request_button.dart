@@ -14,13 +14,18 @@ class RequestButton extends StatelessWidget {
   final double width;
   final double height;
   final VoidCallback requestButtonOnTapCallback;
+  final RequestButtonUrlLauncher urlLauncher;
 
   RequestButton(
       {@required this.requestData,
       @required this.buttonCallbackUrl,
       this.width = 300,
       this.height = 50,
-      this.requestButtonOnTapCallback});
+      this.requestButtonOnTapCallback,
+      RequestButtonUrlLauncher urlLauncher,
+      Key key})
+      : this.urlLauncher = urlLauncher ?? RequestButtonUrlLauncher(),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +96,12 @@ class RequestButton extends StatelessWidget {
   onTap() async {
     var url =
         'https://bloom.co/download?request=${base64.encode(utf8.encode(jsonEncode(requestData.toJson())))}&callback_url=${Uri.encodeComponent(buttonCallbackUrl)}&share-kit-from=button';
+    urlLauncher.launchUrl(url);
+  }
+}
+
+class RequestButtonUrlLauncher {
+  void launchUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
