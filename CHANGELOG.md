@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [1.0.0] - Initial Release
 
-* TODO: Describe initial release.
+* Implemented RequestButton
+* Implemented RequestQrCode
