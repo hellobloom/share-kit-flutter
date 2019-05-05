@@ -2,4 +2,4 @@
 
 Story book of Share Kit Flutter.
 
-Check (lib/stores)[./lib/stories] to see the usage of Share Kit Flutter.
+Check [lib/stories](./lib/stories) to see the usage of Share Kit Flutter.
