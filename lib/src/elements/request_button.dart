@@ -54,13 +54,13 @@ class RequestButton extends StatelessWidget {
                     ),
                     image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: MemoryImage(Assets.BACKGROUND_IMAGE),
+                        image: MemoryImage(Assets.backgroundImage),
                         repeat: ImageRepeat.noRepeat),
                   ),
                 ),
                 Container(
                     margin: EdgeInsets.only(left: 24),
-                    child: SvgPicture.string(Assets.LOCK_ICON_SVG,
+                    child: SvgPicture.string(Assets.lockIconSvg,
                         width: 20,
                         height: 20,
                         fit: BoxFit.scaleDown,
@@ -74,14 +74,14 @@ class RequestButton extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(right: 8),
                           child: SvgPicture.string(
-                            Assets.BLOOM_LOGO_SVG,
+                            Assets.bloomLogoSvg,
                             width: 20,
                             height: 20,
                             fit: BoxFit.scaleDown,
                             alignment: Alignment.center,
                           ),
                         ),
-                        SvgPicture.string(Assets.TEXT_SVG,
+                        SvgPicture.string(Assets.textSvg,
                             width: 111,
                             height: 14,
                             fit: BoxFit.scaleDown,
