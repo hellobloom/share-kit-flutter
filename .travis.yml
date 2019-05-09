@@ -18,22 +18,14 @@ install:
 before_script:
   - ulimit -S -n 2048
   - cd ..
-  - git clone --single-branch --branch v1.2.1 https://github.com/flutter/flutter.git
+  - git clone --single-branch --branch v1.5.4-hotfix.2 https://github.com/flutter/flutter.git
   - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
   - flutter doctor
-matrix:
-  include:
-    - env: NAME="Analyze"
-    - env: NAME="Test"
 script:
   - cd $TRAVIS_BUILD_DIR
   - flutter packages get
-  - if [ $NAME == "Test" ]; then
-      flutter test;
-    fi
-  - if [ $NAME == "Analyze" ]; then
-      flutter analyze;
-    fi
+  - flutter test
+  - flutter analyze
 cache:
   directories:
     - ~/.pub-cache
