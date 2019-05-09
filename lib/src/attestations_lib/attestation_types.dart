@@ -55,7 +55,7 @@ class AttestationType {
 // FIXME: AttestationTypeManifest = Map<AttestationTypeID, AttestationType>
 
 final Map<AttestationTypeID, AttestationType> AttestationTypes =
-    Map.unmodifiable(Map.fromEntries([
+    Map.unmodifiable(Map<AttestationTypeID, AttestationType>.fromEntries([
   MapEntry(
       AttestationTypeID.phone,
       AttestationType(

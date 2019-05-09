@@ -21,10 +21,19 @@ before_script:
   - git clone --single-branch --branch v1.2.1 https://github.com/flutter/flutter.git
   - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
   - flutter doctor
+matrix:
+  include:
+    - env: NAME="Analyze"
+    - env: NAME="Test"
 script:
   - cd $TRAVIS_BUILD_DIR
   - flutter packages get
-  - flutter test
+  - if [ $NAME == "Test" ]; then
+      flutter test;
+    fi
+  - if [ $NAME == "Analyze" ]; then
+      flutter analyze;
+    fi
 cache:
   directories:
     - ~/.pub-cache

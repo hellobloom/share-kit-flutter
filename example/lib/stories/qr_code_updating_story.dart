@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr/qr.dart';
 import 'package:share_kit/share_kit.dart';
 import 'package:storyboard/storyboard.dart';
 

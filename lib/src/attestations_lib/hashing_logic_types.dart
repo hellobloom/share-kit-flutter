@@ -9,28 +9,18 @@ abstract class JsonEncodable {
 
 @JsonSerializable(nullable: false)
 class IAttestationData implements JsonEncodable {
-  // tslint:disable:max-line-length
-  /**
-   * String representation of the attestations data.
-   *
-   * ### Examples ###
-   * email: "test@bloom.co"
-   * sanction-screen: {\"firstName\":\"FIRSTNAME\",\"middleName\":\"MIDDLENAME\",\"lastName\":\"LASTNAME\",\"birthMonth\":1,\"birthDay\":1,\"birthYear\":1900,\"id\":\"a1a1a1a...\"}
-   *
-   * Any attestation that isn't a single string value will be
-   * a JSON string representing the attestation data.
-   */
-  // tslint:enable:max-line-length
+  /// String representation of the attestations data.
+  /// ### Examples ###
+  /// email: "test@bloom.co"
+  /// sanction-screen: {\"firstName\":\"FIRSTNAME\",\"middleName\":\"MIDDLENAME\",\"lastName\":\"LASTNAME\",\"birthMonth\":1,\"birthDay\":1,\"birthYear\":1900,\"id\":\"a1a1a1a...\"}
+  /// Any attestation that isn't a single string value will be
+  /// a JSON string representing the attestation data.
   String data;
 
-  /**
-   * Attestation data nonce
-   */
+  /// Attestation data nonce
   String nonce;
 
-  /**
-   * Semantic version used to keep track of attestation versions
-   */
+  /// Semantic version used to keep track of attestation versions
   String version;
 
   IAttestationData({this.data, this.nonce, this.version});
@@ -44,19 +34,13 @@ class IAttestationData implements JsonEncodable {
 
 @JsonSerializable(nullable: false)
 class IAttestationType implements JsonEncodable {
-  /**
-   * The type of attestation (phone, email, etc.)
-   */
+  /// The type of attestation (phone, email, etc.)
   AttestationTypeID type;
 
-  /**
-   * Optionally identifies service used to perform attestation
-   */
+  /// Optionally identifies service used to perform attestation
   String provider;
 
-  /**
-   * Attestation type nonce
-   */
+  /// Attestation type nonce
   String nonce;
 
   IAttestationType({this.type, this.provider, this.nonce});
@@ -73,9 +57,7 @@ class IClaimNode implements JsonEncodable {
   IAttestationData data;
   IAttestationType type;
 
-  /**
-   * aux either contains a hash of IAuxSig or just a padding node hash
-   */
+  /// aux either contains a hash of IAuxSig or just a padding node hash
   String aux;
 
   IClaimNode({this.data, this.type, this.aux});
@@ -89,36 +71,26 @@ class IClaimNode implements JsonEncodable {
 
 @JsonSerializable(nullable: false)
 class IIssuanceNode implements JsonEncodable {
-  /**
-   * Hex string to identify this attestation node in the event of partial revocation
-   */
+  /// Hex string to identify this attestation node in the event of partial revocation
   String localRevocationToken;
 
-  /**
-   * Hex string to identify this attestation in the event of revocation
-   */
+  /// Hex string to identify this attestation in the event of revocation
   String globalRevocationToken;
 
-  /**
-   * hash of data node attester is verifying
-   */
+  /// hash of data node attester is verifying
   String dataHash;
 
-  /**
-   * hash of type node attester is verifying
-   */
+  /// hash of type node attester is verifying
   String typeHash;
 
-  /**
-   * RFC3339 timestamp of when the claim was issued
-   * https://tools.ietf.org/html/rfc3339
-   */
+  /// RFC3339 timestamp of when the claim was issued
+  /// https://tools.ietf.org/html/rfc3339
+
   String issuanceDate;
 
-  /**
-   * RFC3339 timestamp of when the claim should expire
-   * https://tools.ietf.org/html/rfc3339
-   */
+  /// RFC3339 timestamp of when the claim should expire
+  /// https://tools.ietf.org/html/rfc3339
+
   String expirationDate;
 
   IIssuanceNode(
@@ -140,7 +112,8 @@ class IIssuanceNode implements JsonEncodable {
 class IIssuedClaimNode extends IClaimNode implements JsonEncodable {
   IIssuanceNode issuance;
 
-  IIssuedClaimNode({this.issuance, data, type, aux})
+  IIssuedClaimNode(
+      {this.issuance, IAttestationData data, IAttestationType type, String aux})
       : super(data: data, type: type, aux: aux);
 
   factory IIssuedClaimNode.fromJson(Map<String, dynamic> json) =>
@@ -168,29 +141,19 @@ class ISignedClaimNode implements JsonEncodable {
   Map<String, dynamic> toJson() => _$ISignedClaimNodeToJson(this);
 }
 
-/**
- * Legacy types for constructing and interpreting Bloom Merkle Tree
- */
+/// Legacy types for constructing and interpreting Bloom Merkle Tree
 @JsonSerializable(nullable: false)
 class IRevocationLinks implements JsonEncodable {
-  /**
-   * Hex string to identify this attestation node in the event of partial revocation
-   */
+  /// Hex string to identify this attestation node in the event of partial revocation
   String local;
 
-  /**
-   * Hex string to identify this attestation in the event of revocation
-   */
+  /// Hex string to identify this attestation in the event of revocation
   String global;
 
-  /**
-   * hash of data node attester is verifying
-   */
+  /// hash of data node attester is verifying
   String dataHash;
 
-  /**
-   * hash of type node attester is verifying
-   */
+  // hash of type node attester is verifying
   String typeHash;
 
   IRevocationLinks({this.local, this.global, this.dataHash, this.typeHash});
@@ -204,7 +167,7 @@ class IRevocationLinks implements JsonEncodable {
 
 @JsonSerializable(nullable: false)
 class IAttestationLegacy extends IClaimNode implements JsonEncodable {
-  IAttestationLegacy({data, type, aux})
+  IAttestationLegacy({IAttestationData data, IAttestationType type, String aux})
       : super(data: data, type: type, aux: aux);
 
   factory IAttestationLegacy.fromJson(Map<String, dynamic> json) =>
@@ -218,7 +181,8 @@ class IAttestationLegacy extends IClaimNode implements JsonEncodable {
 class IAttestationNode extends IAttestationLegacy implements JsonEncodable {
   IRevocationLinks link;
 
-  IAttestationNode({this.link, data, type, aux})
+  IAttestationNode(
+      {this.link, IAttestationData data, IAttestationType type, String aux})
       : super(data: data, type: type, aux: aux);
 
   factory IAttestationNode.fromJson(Map<String, dynamic> json) =>
@@ -238,7 +202,6 @@ class IDataNode {
   factory IDataNode.fromJson(Map<String, dynamic> json) =>
       _$IDataNodeFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$IDataNodeToJson(this);
 }
 
@@ -305,15 +268,15 @@ class IBloomBatchMerkleTreeComponents extends IBloomMerkleTreeComponents
       this.requestNonce,
       this.subject,
       this.subjectSig,
-      attester,
-      attesterSig,
-      checksumSig,
-      claimNodes,
-      layer2Hash,
-      paddingNodes,
-      rootHash,
-      rootHashNonce,
-      version})
+      String attester,
+      String attesterSig,
+      String checksumSig,
+      List<ISignedClaimNode> claimNodes,
+      String layer2Hash,
+      List<String> paddingNodes,
+      String rootHash,
+      String rootHashNonce,
+      String version})
       : super(
             attester: attester,
             attesterSig: attesterSig,
@@ -349,5 +312,5 @@ class ITypedDataParam implements JsonEncodable {
 
 enum ChainName { Main, Rinkedby }
 
-final Map<ChainName, int> ChainId =
-    Map.unmodifiable(Map.from({ChainName.Main: 1, ChainName.Rinkedby: 4}));
+final Map<ChainName, int> ChainId = Map.unmodifiable(Map<ChainName, int>.from(
+    <ChainName, int>{ChainName.Main: 1, ChainName.Rinkedby: 4}));

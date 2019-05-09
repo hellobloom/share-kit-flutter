@@ -93,7 +93,7 @@ class RequestButton extends StatelessWidget {
   }
 
   @protected
-  onTap() async {
+  void onTap() async {
     var url =
         'https://bloom.co/download?request=${base64.encode(utf8.encode(jsonEncode(requestData.toJson())))}&callback_url=${Uri.encodeComponent(buttonCallbackUrl)}&share-kit-from=button';
     urlLauncher.launchUrl(url);

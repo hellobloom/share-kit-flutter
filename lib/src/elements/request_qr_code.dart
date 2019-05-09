@@ -10,15 +10,15 @@ import 'package:share_kit/src/elements/utils.dart';
 import 'package:share_kit/src/types.dart';
 
 class RequestQRCode extends StatelessWidget {
-  RequestData requestData;
-  QROptions qrOptions;
-  QrCode _qr;
+  final RequestData requestData;
+  final QROptions qrOptions;
+  final QrCode _qr;
 
   RequestQRCode({@required this.requestData, QROptions qrOptions})
-      : this.qrOptions = qrOptions ?? QROptions() {
-    _qr = QrCode.fromData(
-        data: jsonEncode(requestData.toJson()),
-        errorCorrectLevel: this.qrOptions.ecLevel);
+      : this.qrOptions = qrOptions ?? QROptions(),
+        _qr = QrCode.fromData(
+            data: jsonEncode(requestData.toJson()),
+            errorCorrectLevel: (qrOptions ?? QROptions()).ecLevel) {
     _qr.make();
   }
 

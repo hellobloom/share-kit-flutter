@@ -12,14 +12,12 @@ import 'package:sortedmap/sortedmap.dart';
 
 String hashMessage(dynamic message) {
   if (message is String) {
-    message = utf8.encode(message);
+    message = utf8.encode(message as String);
   }
   return bufferToHex(keccak256(message));
 }
 
-/**
- * Generate a random hex string with 0x prefix
- */
+/// Generate a random hex string with 0x prefix
 String generateNonce() {
   return hashMessage(DartRandom(Random.secure()).nextBytes(20));
 }
@@ -27,16 +25,14 @@ String generateNonce() {
 String orderedStringify(dynamic obj) {
   String jsonEncoded =
       obj is JsonEncodable ? jsonEncode(obj.toJson()) : jsonEncode(obj);
-  var jsonDecoded = jsonDecode(jsonEncoded);
+  dynamic jsonDecoded = jsonDecode(jsonEncoded);
   var sortedMap = SortedMap<String, dynamic>.from(
-      Map<String, dynamic>.from(jsonDecoded), Ordering.byKey());
+      Map<String, dynamic>.from(jsonDecoded as Map), Ordering.byKey());
   return jsonEncode(sortedMap);
 }
 
-/**
- * Given an array of hashed attestations, creates a new MerkleTree with the leaves
- * after the leaves are sorted by hash and mapped into hash Buffers.
- */
+/// Given an array of hashed attestations, creates a new MerkleTree with the leaves
+/// after the leaves are sorted by hash and mapped into hash Buffers.
 MerkleTree getMerkleTreeFromLeaves(List<String> leaves) {
   leaves.sort();
   return new MerkleTree(
@@ -53,29 +49,23 @@ MerkleTree getClaimTree(IIssuedClaimNode claim) {
   return getMerkleTreeFromLeaves([dataHash, typeHash, issuanceHash, auxHash]);
 }
 
-/**
- * Given the contents of an attestation node, return the root hash of the Merkle tree
- */
+/// Given the contents of an attestation node, return the root hash of the Merkle tree
 Uint8List hashClaimTree(IIssuedClaimNode claim) {
   var dataTree = getClaimTree(claim);
   return dataTree.root;
 }
 
-/**
- * Sign a buffer with a given private key and return a hex string of the signature
- * @param hash Any message buffer
- * @param privKey A private key buffer
- */
+/// Sign a buffer with a given private key and return a hex string of the signature
+/// @param hash Any message buffer
+/// @param privKey A private key buffer
 String signHash(Uint8List hash, Uint8List privKey) {
   var sig = sign(hash, privKey);
   return concatSig(toBuffer(sig.r), toBuffer(sig.s), toBuffer(sig.v));
 }
 
-/**
- * Recover the address of the signer of a given message hash
- * @param hash Buffer of the message that was signed
- * @param sig Hex string of the signature
- */
+/// Recover the address of the signer of a given message hash
+/// @param hash Buffer of the message that was signed
+/// @param sig Hex string of the signature
 String recoverHashSigner(Uint8List hash, String sig) {
   var sigParams = fromRpcSig(sig);
   var pubKey = recoverPublicKeyFromSignature(
@@ -84,12 +74,10 @@ String recoverHashSigner(Uint8List hash, String sig) {
   return bufferToHex(sender);
 }
 
-/**
- * Sign a complete attestation node and return an object containing the datanode and the signature
- * @param dataNode - Complete attestation data node
- * @param globalRevocationLink - Hex string referencing revocation of the whole attestation
- * @param privKey - Private key of signer
- */
+/// Sign a complete attestation node and return an object containing the datanode and the signature
+/// @param dataNode - Complete attestation data node
+/// @param globalRevocationLink - Hex string referencing revocation of the whole attestation
+/// @param privKey - Private key of signer
 ISignedClaimNode getSignedClaimNode(
     IClaimNode claimNode,
     String globalRevocationLink,
@@ -127,11 +115,9 @@ ISignedClaimNode getSignedClaimNode(
   );
 }
 
-/**
- *
- * @param attestation Given the contents of an attestation node, return a
- * Merkle tree
- */
+///
+/// @param attestation Given the contents of an attestation node, return a
+/// Merkle tree
 MerkleTree getDataTree(IAttestationNode attestation) {
   var dataHash = hashMessage(orderedStringify(attestation.data));
   var typeHash = hashMessage(orderedStringify(attestation.type));
@@ -140,20 +126,16 @@ MerkleTree getDataTree(IAttestationNode attestation) {
   return getMerkleTreeFromLeaves([dataHash, typeHash, linkHash, auxHash]);
 }
 
-/**
- * Given the contents of an attestation node, return the root hash of the Merkle tree
- */
+/// Given the contents of an attestation node, return the root hash of the Merkle tree
 Uint8List hashAttestationNode(IAttestationNode attestation) {
   var dataTree = getDataTree(attestation);
   return dataTree.root;
 }
 
-/**
-* Sign a complete attestation node and return an object containing the datanode and the signature
-* @param dataNode - Complete attestation data node
-* @param globalRevocationLink - Hex string referencing revocation of the whole attestation
-* @param privKey - Private key of signer
-*/
+/// Sign a complete attestation node and return an object containing the datanode and the signature
+/// @param dataNode - Complete attestation data node
+/// @param globalRevocationLink - Hex string referencing revocation of the whole attestation
+/// @param privKey - Private key of signer
 IDataNodeLegacy getSignedDataNode(IAttestationLegacy dataNode,
     String globalRevocationLink, Uint8List privKey) {
   var attestationNode = IAttestationNode(
@@ -175,11 +157,9 @@ IDataNodeLegacy getSignedDataNode(IAttestationLegacy dataNode,
   );
 }
 
-/**
- * Given an array of hashed dataNode signatures and a hashed checksum signature, creates a new MerkleTree
- * after padding, and sorting.
- *
- */
+/// Given an array of hashed dataNode signatures and a hashed checksum signature, creates a new MerkleTree
+/// after padding, and sorting.
+///
 MerkleTree getBloomMerkleTree(
     List<String> claimHashes, List<String> paddingNodes, String checksumHash) {
   var leaves = claimHashes;
@@ -188,47 +168,41 @@ MerkleTree getBloomMerkleTree(
   return getMerkleTreeFromLeaves(leaves);
 }
 
-/**
- * Given an array of root hashes, sort and hash them into a checksum buffer
- * @param {string[]} dataHashes - array of dataHashes as hex strings
- */
+/// Given an array of root hashes, sort and hash them into a checksum buffer
+/// @param {string[]} dataHashes - array of dataHashes as hex strings
 Uint8List getChecksum(List<String> dataHashes) {
   dataHashes.sort();
   return toBuffer(hashMessage(jsonEncode(dataHashes)));
 }
 
-/**
- * Given an array of root hashes, get and sign the checksum
- * @param dataHashes - array of dataHashes as hex strings
- * @param privKey - private key of signer
- */
+/// Given an array of root hashes, get and sign the checksum
+/// @param dataHashes - array of dataHashes as hex strings
+/// @param privKey - private key of signer
 String signChecksum(List<String> dataHashes, Uint8List privKey) {
   return signHash(getChecksum(dataHashes), privKey);
 }
 
-/**
- * Given the number of data nodes return an array of padding nodes
- * @param {number} dataCount - number of data nodes in tree
- *
- * A Bloom Merkle tree will contain at minimum one data node and one checksum node
- * In order to obscure the amount of data in the tree, the number of nodes are padded to
- * a set threshold
- *
- * The Depth of the tree increments in steps of 5
- * The number of terminal nodes in a filled binary tree is 2 ^ (n - 1) where n is the depth
- *
- * dataCount 1 -> 15: paddingCount: 14 -> 0 (remeber + 1 for checksum node)
- * dataCount 16 -> 511: paddingCount 495 -> 0
- * dataCount 512 -> ...: paddingCount 15871 -> ...
- * ...
- */
+/// Given the number of data nodes return an array of padding nodes
+/// @param {number} dataCount - number of data nodes in tree
+///
+/// A Bloom Merkle tree will contain at minimum one data node and one checksum node
+/// In order to obscure the amount of data in the tree, the number of nodes are padded to
+/// a set threshold
+///
+/// The Depth of the tree increments in steps of 5
+/// The number of terminal nodes in a filled binary tree is 2 ^ (n - 1) where n is the depth
+///
+/// dataCount 1 -> 15: paddingCount: 14 -> 0 (remeber + 1 for checksum node)
+/// dataCount 16 -> 511: paddingCount 495 -> 0
+/// dataCount 512 -> ...: paddingCount 15871 -> ...
+/// ...
 List<String> getPadding(int dataCount) {
   if (dataCount < 1) return [];
   var i = 5;
   while (dataCount + 1 > pow(2, i - 1)) {
     i += 5;
   }
-  var paddingCount = pow(2, (i - 1)) - (dataCount + 1);
+  int paddingCount = pow(2, (i - 1)).toInt() - (dataCount + 1);
   var ret = List<String>(paddingCount);
   var random = DartRandom(Random.secure());
   return ret.map((_) {
@@ -236,12 +210,10 @@ List<String> getPadding(int dataCount) {
   }).toList();
 }
 
-/**
- * Given attestation data and the attester's private key, construct the entire Bloom Merkle tree
- * and return the components needed to generate proofs
- * @param claimNodes - Complete attestation nodes
- * @param privKey - Attester private key
- */
+/// Given attestation data and the attester's private key, construct the entire Bloom Merkle tree
+/// and return the components needed to generate proofs
+/// @param claimNodes - Complete attestation nodes
+/// @param privKey - Attester private key
 IBloomMerkleTreeComponents getSignedMerkleTreeComponents(
     List<IClaimNode> claimNodes,
     String issuanceDate,
@@ -281,12 +253,10 @@ IBloomMerkleTreeComponents getSignedMerkleTreeComponents(
   );
 }
 
-/**
- * Given attestation data and the attester's private key, construct the entire Bloom Merkle tree
- * and return the components needed to generate proofs
- * @param claimNodes - Complete attestation nodes
- * @param privKey - Attester private key
- */
+/// Given attestation data and the attester's private key, construct the entire Bloom Merkle tree
+/// and return the components needed to generate proofs
+/// @param claimNodes - Complete attestation nodes
+/// @param privKey - Attester private key
 IBloomBatchMerkleTreeComponents getSignedBatchMerkleTreeComponents(
     IBloomMerkleTreeComponents components,
     String contractAddress,
@@ -335,27 +305,25 @@ MerkleTree getMerkleTreeFromComponents(IBloomMerkleTreeComponents components) {
       hashMessage(components.checksumSig));
 }
 
-/**
- * verify
- * @desc Returns true if the proof path (array of hashes) can connect the target node
- * to the Merkle root.
- * @param {Object[]} proof - Array of proof objects that should connect
- * target node to Merkle root.
- * @param {Buffer} targetNode - Target node Buffer
- * @param {Buffer} root - Merkle root Buffer
- * @return {Boolean}
- * @example
- * var root = tree.getRoot()
- * var proof = tree.getProof(leaves[2])
- * var verified = tree.verify(proof, leaves[2], root)
- *
- * standalone verify function taken from https://github.com/miguelmota/merkletreejs
- */
+/// verify
+/// @desc Returns true if the proof path (array of hashes) can connect the target node
+/// to the Merkle root.
+/// @param {Object[]} proof - Array of proof objects that should connect
+/// target node to Merkle root.
+/// @param {Buffer} targetNode - Target node Buffer
+/// @param {Buffer} root - Merkle root Buffer
+/// @return {Boolean}
+/// @example
+/// var root = tree.getRoot()
+/// var proof = tree.getProof(leaves[2])
+/// var verified = tree.verify(proof, leaves[2], root)
+///
+/// standalone verify function taken from https://github.com/miguelmota/merkletreejs
 bool verifyMerkleProof(
     List<MerkleProof> proofs, Uint8List targetNode, Uint8List root) {
   // Should not succeed with all empty arguments
   // Proof can be empty if single leaf tree
-  if (targetNode.length == 0 || root.length == 0) {
+  if (targetNode.isEmpty || root.isEmpty) {
     return false;
   }
 
@@ -375,7 +343,7 @@ bool verifyMerkleProof(
     hash = keccak(buffers.toBytes());
   });
 
-  return ListEquality().equals(hash, root);
+  return ListEquality<dynamic>().equals(hash, root);
 }
 
 TypedData getAttestationAgreement(
@@ -400,7 +368,7 @@ TypedData getAttestationAgreement(
       chainId: chainId,
       verifyingContract: contractAddress,
     ),
-    message: {
+    message: <String, String>{
       "dataHash": dataHash,
       "nonce": requestNonce,
     },

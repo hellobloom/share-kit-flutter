@@ -5,7 +5,6 @@ import 'package:share_kit/share_kit.dart';
 import 'package:storyboard/storyboard.dart';
 
 import 'defaults.dart';
-import 'button_story.dart';
 
 /// The request button will be removed on tap
 class ButtonRemoveOnTapStory extends Story {

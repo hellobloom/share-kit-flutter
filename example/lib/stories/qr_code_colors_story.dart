@@ -1,6 +1,5 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
-import 'package:qr/qr.dart';
 import 'package:share_kit/share_kit.dart';
 import 'package:storyboard/storyboard.dart';
 

@@ -40,7 +40,6 @@ class RequestData {
   factory RequestData.fromJson(Map<String, dynamic> json) =>
       _$RequestDataFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$RequestDataToJson(this);
 }
 
@@ -96,7 +95,7 @@ class Details {
 class OSDetails extends Details {
   Details versionName;
 
-  OSDetails({name, version, this.versionName})
+  OSDetails({String name, List<dynamic> version, this.versionName})
       : super(name: name, version: version);
 }
 
@@ -131,11 +130,9 @@ class RequestElementResult {
 
 // Response Types
 
-/**
- * Based on IProof from `merkletreejs`, but the data property is a String
- * which should contain the hex String representation of a Buffer for
- * compatibility when serializing / deserializing.
- */
+/// Based on IProof from `merkletreejs`, but the data property is a String
+/// which should contain the hex String representation of a Buffer for
+/// compatibility when serializing / deserializing.
 class IProofShare {
   String position;
   String data;
@@ -146,79 +143,51 @@ class IProofShare {
   }
 }
 
-/**
- * Represents the data shared by a user, which has been attested on the Bloom Protocol.
- * Receivers of this data can / should verity this data hasn't been tampered with.
- */
+/// Represents the data shared by a user, which has been attested on the Bloom Protocol.
+/// Receivers of this data can / should verity this data hasn't been tampered with.
 class IVerifiedData {
-  /**
-   * Blockchain transaction hash which emits the layer2Hash property
-   */
+  /// Blockchain transaction hash which emits the layer2Hash property
   String tx;
 
-  /**
-   * Attestation hash that lives on chain and is formed by hashing the merkle
-   * tree root hash with a nonce.
-   */
+  /// Attestation hash that lives on chain and is formed by hashing the merkle
+  /// tree root hash with a nonce.
   String layer2Hash;
 
-  /**
-   * Merkle tree root hash
-   */
+  /// Merkle tree root hash
   String rootHash;
 
-  /**
-   * Nonce used to hash the `rootHash` to create the `layer2Hash`
-   */
+  /// Nonce used to hash the `rootHash` to create the `layer2Hash`
   String rootHashNonce;
 
-  /**
-   * Merkle tree leaf proof
-   */
+  /// Merkle tree leaf proof
   List<IProofShare> proof;
 
-  /**
-   * The Ethereum network name on which the tx can be found
-   */
+  /// The Ethereum network name on which the tx can be found
   IVerifiedDataState stage;
 
-  /**
-   * Data node containing the raw verified data that was requested
-   */
+  /// Data node containing the raw verified data that was requested
   HashingLogicTypes.IDataNode target;
 
-  /**
-   * Ethereum address of the attester that performed the attestation
-   */
+  /// Ethereum address of the attester that performed the attestation
   String attester;
 }
 
 enum IVerifiedDataState { mainnet, rinkedby, local }
 
 class ResponseData {
-  /**
-   * The Ethereum address of the user sharing their data
-   */
+  /// The Ethereum address of the user sharing their data
   String subject;
 
-  /**
-   * Data shared to the receiving endpoint requested by the share-kit QR code.
-   * This data can be verified by the receiver via functions in utils.ts.
-   */
+  /// Data shared to the receiving endpoint requested by the share-kit QR code.
+  /// This data can be verified by the receiver via functions in utils.ts.
   List<IVerifiedData> data;
 
-  /**
-   * Hex String representation of the `data` being keccak256 hashed
-   */
+  /// Hex String representation of the `data` being keccak256 hashed
   String packedData;
 
-  /**
-   * Signature of `packedData` by the user with their mnemonic.
-   */
+  /// Signature of `packedData` by the user with their mnemonic.
   String signature;
 
-  /**
-   * Token that should match the one provided to the share-kit QR code.
-   */
+  /// Token that should match the one provided to the share-kit QR code.
   String token;
 }

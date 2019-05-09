@@ -1,12 +1,9 @@
-/**
- * Copyright (c) 2017, Dirk-Jan Rutten
- * All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree:
- * https://github.com/excitement-engineer/graphql-iso-date
- *
- */
+/// Copyright (c) 2017, Dirk-Jan Rutten
+/// All rights reserved.
+///
+/// This source code is licensed under the MIT license found in the
+/// LICENSE file in the root directory of this source tree:
+/// https://github.com/excitement-engineer/graphql-iso-date
 
 // Check whether a certain year is a leap year.
 //
@@ -83,9 +80,9 @@ bool validateDate(String datestring) {
 
   // Verify the correct number of days for
   // the month contained in the date-string.
-  final num year = num.parse(datestring.substring(0, 4));
-  final num month = num.parse(datestring.substring(5, 5 + 2));
-  final num day = num.parse(datestring.substring(8, 8 + 2));
+  final int year = int.parse(datestring.substring(0, 4));
+  final int month = int.parse(datestring.substring(5, 5 + 2));
+  final int day = int.parse(datestring.substring(8, 8 + 2));
 
   switch (month) {
     case 2: // February
@@ -122,7 +119,6 @@ bool validateDate(String datestring) {
 // Where *s is a fraction of seconds with at least 1 digit.
 //
 bool validateDateTime(String dateTimeString) {
-  // tslint:disable-next-line:max-line-length
   final RegExp RFC_3339_REGEX = RegExp(
       '^(\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60))(\\.\\d{1,})?(([Z])|([+|-]([01][0-9]|2[0-3]):[0-5][0-9]))\$');
 

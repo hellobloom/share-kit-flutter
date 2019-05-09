@@ -124,9 +124,9 @@ IIssuedClaimNode _$IIssuedClaimNodeFromJson(Map<String, dynamic> json) {
   return IIssuedClaimNode(
       issuance:
           IIssuanceNode.fromJson(json['issuance'] as Map<String, dynamic>),
-      data: json['data'],
-      type: json['type'],
-      aux: json['aux']);
+      data: IAttestationData.fromJson(json['data'] as Map<String, dynamic>),
+      type: IAttestationType.fromJson(json['type'] as Map<String, dynamic>),
+      aux: json['aux'] as String);
 }
 
 Map<String, dynamic> _$IIssuedClaimNodeToJson(IIssuedClaimNode instance) =>
@@ -170,7 +170,9 @@ Map<String, dynamic> _$IRevocationLinksToJson(IRevocationLinks instance) =>
 
 IAttestationLegacy _$IAttestationLegacyFromJson(Map<String, dynamic> json) {
   return IAttestationLegacy(
-      data: json['data'], type: json['type'], aux: json['aux']);
+      data: IAttestationData.fromJson(json['data'] as Map<String, dynamic>),
+      type: IAttestationType.fromJson(json['type'] as Map<String, dynamic>),
+      aux: json['aux'] as String);
 }
 
 Map<String, dynamic> _$IAttestationLegacyToJson(IAttestationLegacy instance) =>
@@ -183,9 +185,9 @@ Map<String, dynamic> _$IAttestationLegacyToJson(IAttestationLegacy instance) =>
 IAttestationNode _$IAttestationNodeFromJson(Map<String, dynamic> json) {
   return IAttestationNode(
       link: IRevocationLinks.fromJson(json['link'] as Map<String, dynamic>),
-      data: json['data'],
-      type: json['type'],
-      aux: json['aux']);
+      data: IAttestationData.fromJson(json['data'] as Map<String, dynamic>),
+      type: IAttestationType.fromJson(json['type'] as Map<String, dynamic>),
+      aux: json['aux'] as String);
 }
 
 Map<String, dynamic> _$IAttestationNodeToJson(IAttestationNode instance) =>
@@ -261,15 +263,18 @@ IBloomBatchMerkleTreeComponents _$IBloomBatchMerkleTreeComponentsFromJson(
       requestNonce: json['requestNonce'] as String,
       subject: json['subject'] as String,
       subjectSig: json['subjectSig'] as String,
-      attester: json['attester'],
-      attesterSig: json['attesterSig'],
-      checksumSig: json['checksumSig'],
-      claimNodes: json['claimNodes'],
-      layer2Hash: json['layer2Hash'],
-      paddingNodes: json['paddingNodes'],
-      rootHash: json['rootHash'],
-      rootHashNonce: json['rootHashNonce'],
-      version: json['version']);
+      attester: json['attester'] as String,
+      attesterSig: json['attesterSig'] as String,
+      checksumSig: json['checksumSig'] as String,
+      claimNodes: (json['claimNodes'] as List)
+          .map((e) => ISignedClaimNode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      layer2Hash: json['layer2Hash'] as String,
+      paddingNodes:
+          (json['paddingNodes'] as List).map((e) => e as String).toList(),
+      rootHash: json['rootHash'] as String,
+      rootHashNonce: json['rootHashNonce'] as String,
+      version: json['version'] as String);
 }
 
 Map<String, dynamic> _$IBloomBatchMerkleTreeComponentsToJson(
