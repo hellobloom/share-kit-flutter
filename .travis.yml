@@ -26,6 +26,3 @@ script:
   - flutter packages get
   - flutter test
   - flutter analyze
-cache:
-  directories:
-    - ~/.pub-cache
