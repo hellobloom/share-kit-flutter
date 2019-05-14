@@ -25,7 +25,14 @@ class RequestButton extends StatelessWidget {
       RequestButtonUrlLauncher urlLauncher,
       Key key})
       : this.urlLauncher = urlLauncher ?? RequestButtonUrlLauncher(),
-        super(key: key);
+        super(key: key) {
+    Uri requestDataUri = Uri.parse(requestData.url);
+    Map<String, String> queryParameters =
+        Map.from(requestDataUri.queryParameters);
+    queryParameters.putIfAbsent("share-kit-from", () => "button");
+    this.requestData.url =
+        requestDataUri.replace(queryParameters: queryParameters).toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +102,7 @@ class RequestButton extends StatelessWidget {
   @protected
   void onTap() async {
     var url =
-        'https://bloom.co/download?request=${base64.encode(utf8.encode(jsonEncode(requestData.toJson())))}&callback_url=${Uri.encodeComponent(buttonCallbackUrl)}&share-kit-from=button';
+        'https://bloom.co/download?request=${base64.encode(utf8.encode(jsonEncode(requestData.toJson())))}&callback_url=${Uri.encodeComponent(buttonCallbackUrl)}';
     urlLauncher.launchUrl(url);
   }
 }

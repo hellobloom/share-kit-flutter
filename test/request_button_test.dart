@@ -36,6 +36,16 @@ void main() {
     expect(testAppState.requestButtonDeleted, true);
     await expectLater(find.byType(RequestButton), findsNothing);
   });
+
+  testWidgets('should append share-kit-from=button to requestData.url',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(_TestApp());
+    await tester.pumpAndSettle();
+    RequestButton requestButton =
+        tester.firstWidget(find.byType(RequestButton));
+    expect(requestButton.requestData.url,
+        "https://receive-kit.bloom.co/api/receive?share-kit-from=button");
+  });
 }
 
 class _TestApp extends StatefulWidget {
