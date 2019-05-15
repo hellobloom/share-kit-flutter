@@ -7,8 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr/qr.dart';
 
-import 'package:share_kit/src/elements/utils.dart';
-import 'package:share_kit/src/types.dart';
+import 'package:bloom_share_kit/src/elements/utils.dart';
+import 'package:bloom_share_kit/src/types.dart';
 
 class RequestQRCode extends StatelessWidget {
   final RequestData requestData;

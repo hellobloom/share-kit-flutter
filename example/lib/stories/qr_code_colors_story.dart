@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
-import 'package:share_kit/src/elements/request_qr_code.dart';
-import 'package:share_kit/src/types.dart';
+import 'package:bloom_share_kit/src/elements/request_qr_code.dart';
+import 'package:bloom_share_kit/src/types.dart';
 import 'package:storyboard/storyboard.dart';
 
 import 'defaults.dart';

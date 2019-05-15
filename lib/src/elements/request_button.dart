@@ -6,8 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:share_kit/src/elements/assets.dart';
-import 'package:share_kit/src/types.dart' show RequestData;
+import 'package:bloom_share_kit/src/elements/assets.dart';
+import 'package:bloom_share_kit/src/types.dart' show RequestData;
 
 class RequestButton extends StatelessWidget {
   final RequestData requestData;

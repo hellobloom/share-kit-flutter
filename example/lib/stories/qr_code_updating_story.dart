@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:share_kit/share_kit.dart';
-import 'package:share_kit/src/elements/request_qr_code.dart';
+import 'package:bloom_share_kit/bloom_share_kit.dart';
+import 'package:bloom_share_kit/src/elements/request_qr_code.dart';
 import 'package:storyboard/storyboard.dart';
 
 import 'defaults.dart';

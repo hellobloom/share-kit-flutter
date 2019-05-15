@@ -7,9 +7,9 @@ import 'package:ethereum_util/src/typed_data.dart';
 import 'package:ethereum_util/src/wallet.dart';
 import 'package:test/test.dart';
 
-import 'package:share_kit/src/attestations_lib/attestation_types.dart' as AttestationTypes;
-import 'package:share_kit/src/attestations_lib/hashing_logic.dart' as HashingLogic;
-import 'package:share_kit/src/attestations_lib/hashing_logic_types.dart' as HashingLogicTypes;
+import 'package:bloom_share_kit/src/attestations_lib/attestation_types.dart' as AttestationTypes;
+import 'package:bloom_share_kit/src/attestations_lib/hashing_logic.dart' as HashingLogic;
+import 'package:bloom_share_kit/src/attestations_lib/hashing_logic_types.dart' as HashingLogicTypes;
 
 var aliceWallet =
     Wallet.fromPrivateKey(hex.decode('c87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3') as Uint8List);

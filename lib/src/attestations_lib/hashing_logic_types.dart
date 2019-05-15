@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:share_kit/src/attestations_lib/attestation_types.dart';
+import 'package:bloom_share_kit/src/attestations_lib/attestation_types.dart';
 
 part 'hashing_logic_types.g.dart';
 

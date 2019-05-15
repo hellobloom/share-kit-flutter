@@ -1,5 +1,5 @@
-import 'package:share_kit/share_kit.dart';
-import 'package:share_kit/src/attestations_lib/attestation_types.dart';
+import 'package:bloom_share_kit/bloom_share_kit.dart';
+import 'package:bloom_share_kit/src/attestations_lib/attestation_types.dart';
 
 class Defaults {
   static final defaultData = RequestData(

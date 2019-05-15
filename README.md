@@ -18,7 +18,7 @@ Flutter implementation of [Share Kit](https://github.com/hellobloom/share-kit#re
 Check [example](./example) for complete examples.
 
 ```dartlang
-import 'package:share_kit/share_kit.dart';
+import 'package:bloom_share_kit/bloom_share_kit.dart';
 
 final requestData = RequestData(...)
 final buttonCallbackUrl = '...'
@@ -77,7 +77,7 @@ The `buttonCallbackUrl` parameter will be used to send the user back to your app
 ### Example
 
 ```dartlang
-import 'package:share_kit/share_kit.dart';
+import 'package:bloom_share_kit/bloom_share_kit.dart';
 
 final requestData = RequestData(
   action: Action.request_attestation_data,

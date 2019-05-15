@@ -8,8 +8,8 @@ import 'package:ethereum_util/ethereum_util.dart';
 import 'package:merkletree/merkletree.dart';
 import 'package:sortedmap/sortedmap.dart';
 
-import 'package:share_kit/src/attestations_lib/hashing_logic_types.dart';
-import 'package:share_kit/src/attestations_lib/rfc3339_date_time.dart';
+import 'package:bloom_share_kit/src/attestations_lib/hashing_logic_types.dart';
+import 'package:bloom_share_kit/src/attestations_lib/rfc3339_date_time.dart';
 
 String hashMessage(dynamic message) {
   if (message is String) {
