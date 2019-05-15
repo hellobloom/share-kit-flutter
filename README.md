@@ -4,7 +4,14 @@
 
 Flutter implementation of [Share Kit](https://github.com/hellobloom/share-kit#readme)
 
-## Under Construction
+## Usage and demo
 
-- [Bounty Ticket](https://github.com/hellobloom/share-kit/issues/46)
-- To complete please make a PR to this repo
+Check [example](./example) to see the story book of this package.  
+
+## Testing
+
+Run
+
+```bash
+flutter test
+```
