@@ -6,9 +6,10 @@ import 'package:buffer/buffer.dart';
 import 'package:collection/collection.dart';
 import 'package:ethereum_util/ethereum_util.dart';
 import 'package:merkletree/merkletree.dart';
-import 'package:share_kit/src/attestations_lib/hashing_logic_types.dart';
-import 'package:share_kit/src/attestations_lib/rfc3339_date_time.dart';
 import 'package:sortedmap/sortedmap.dart';
+
+import 'package:bloom_share_kit/src/attestations_lib/hashing_logic_types.dart';
+import 'package:bloom_share_kit/src/attestations_lib/rfc3339_date_time.dart';
 
 String hashMessage(dynamic message) {
   if (message is String) {
@@ -23,11 +24,9 @@ String generateNonce() {
 }
 
 String orderedStringify(dynamic obj) {
-  String jsonEncoded =
-      obj is JsonEncodable ? jsonEncode(obj.toJson()) : jsonEncode(obj);
+  String jsonEncoded = obj is JsonEncodable ? jsonEncode(obj.toJson()) : jsonEncode(obj);
   dynamic jsonDecoded = jsonDecode(jsonEncoded);
-  var sortedMap = SortedMap<String, dynamic>.from(
-      Map<String, dynamic>.from(jsonDecoded as Map), Ordering.byKey());
+  var sortedMap = SortedMap<String, dynamic>.from(Map<String, dynamic>.from(jsonDecoded as Map), Ordering.byKey());
   return jsonEncode(sortedMap);
 }
 
@@ -68,8 +67,7 @@ String signHash(Uint8List hash, Uint8List privKey) {
 /// @param sig Hex string of the signature
 String recoverHashSigner(Uint8List hash, String sig) {
   var sigParams = fromRpcSig(sig);
-  var pubKey = recoverPublicKeyFromSignature(
-      ECDSASignature(sigParams.r, sigParams.s, sigParams.v), hash);
+  var pubKey = recoverPublicKeyFromSignature(ECDSASignature(sigParams.r, sigParams.s, sigParams.v), hash);
   var sender = publicKeyToAddress(pubKey);
   return bufferToHex(sender);
 }
@@ -79,11 +77,7 @@ String recoverHashSigner(Uint8List hash, String sig) {
 /// @param globalRevocationLink - Hex string referencing revocation of the whole attestation
 /// @param privKey - Private key of signer
 ISignedClaimNode getSignedClaimNode(
-    IClaimNode claimNode,
-    String globalRevocationLink,
-    Uint8List privKey,
-    String issuanceDate,
-    String expirationDate) {
+    IClaimNode claimNode, String globalRevocationLink, Uint8List privKey, String issuanceDate, String expirationDate) {
   // validateDates
   if (!validateDateTime(issuanceDate)) {
     throw new ArgumentError('Invalid issuance date');
@@ -136,8 +130,7 @@ Uint8List hashAttestationNode(IAttestationNode attestation) {
 /// @param dataNode - Complete attestation data node
 /// @param globalRevocationLink - Hex string referencing revocation of the whole attestation
 /// @param privKey - Private key of signer
-IDataNodeLegacy getSignedDataNode(IAttestationLegacy dataNode,
-    String globalRevocationLink, Uint8List privKey) {
+IDataNodeLegacy getSignedDataNode(IAttestationLegacy dataNode, String globalRevocationLink, Uint8List privKey) {
   var attestationNode = IAttestationNode(
     data: dataNode.data,
     type: dataNode.type,
@@ -160,8 +153,7 @@ IDataNodeLegacy getSignedDataNode(IAttestationLegacy dataNode,
 /// Given an array of hashed dataNode signatures and a hashed checksum signature, creates a new MerkleTree
 /// after padding, and sorting.
 ///
-MerkleTree getBloomMerkleTree(
-    List<String> claimHashes, List<String> paddingNodes, String checksumHash) {
+MerkleTree getBloomMerkleTree(List<String> claimHashes, List<String> paddingNodes, String checksumHash) {
   var leaves = claimHashes;
   leaves.add(checksumHash);
   leaves.addAll(paddingNodes);
@@ -215,24 +207,17 @@ List<String> getPadding(int dataCount) {
 /// @param claimNodes - Complete attestation nodes
 /// @param privKey - Attester private key
 IBloomMerkleTreeComponents getSignedMerkleTreeComponents(
-    List<IClaimNode> claimNodes,
-    String issuanceDate,
-    String expirationDate,
-    Uint8List privKey) {
+    List<IClaimNode> claimNodes, String issuanceDate, String expirationDate, Uint8List privKey) {
   var globalRevocationLink = generateNonce();
   List<ISignedClaimNode> signedClaimNodes = claimNodes
-      .map((a) => getSignedClaimNode(
-          a, globalRevocationLink, privKey, issuanceDate, expirationDate))
+      .map((a) => getSignedClaimNode(a, globalRevocationLink, privKey, issuanceDate, expirationDate))
       .toList();
-  List<String> attesterClaimSigHashes =
-      signedClaimNodes.map((a) => hashMessage(a.attesterSig)).toList();
+  List<String> attesterClaimSigHashes = signedClaimNodes.map((a) => hashMessage(a.attesterSig)).toList();
 
   var paddingNodes = getPadding(attesterClaimSigHashes.length);
   var signedChecksum = signChecksum(attesterClaimSigHashes, privKey);
   var signedChecksumHash = hashMessage(signedChecksum);
-  var rootHash = getBloomMerkleTree(
-          attesterClaimSigHashes, paddingNodes, signedChecksumHash)
-      .root;
+  var rootHash = getBloomMerkleTree(attesterClaimSigHashes, paddingNodes, signedChecksumHash).root;
   var signedRootHash = signHash(rootHash, privKey);
   var rootHashNonce = generateNonce();
   var layer2Hash = hashMessage(orderedStringify({
@@ -257,15 +242,9 @@ IBloomMerkleTreeComponents getSignedMerkleTreeComponents(
 /// and return the components needed to generate proofs
 /// @param claimNodes - Complete attestation nodes
 /// @param privKey - Attester private key
-IBloomBatchMerkleTreeComponents getSignedBatchMerkleTreeComponents(
-    IBloomMerkleTreeComponents components,
-    String contractAddress,
-    String subjectSig,
-    String subject,
-    String requestNonce,
-    Uint8List privKey) {
-  if (!validateSignedAgreement(subjectSig, contractAddress,
-      components.layer2Hash, requestNonce, subject)) {
+IBloomBatchMerkleTreeComponents getSignedBatchMerkleTreeComponents(IBloomMerkleTreeComponents components,
+    String contractAddress, String subjectSig, String subject, String requestNonce, Uint8List privKey) {
+  if (!validateSignedAgreement(subjectSig, contractAddress, components.layer2Hash, requestNonce, subject)) {
     throw new ArgumentError('Invalid subject sig');
   }
   var batchAttesterSig = signHash(
@@ -299,10 +278,8 @@ IBloomBatchMerkleTreeComponents getSignedBatchMerkleTreeComponents(
 }
 
 MerkleTree getMerkleTreeFromComponents(IBloomMerkleTreeComponents components) {
-  var signedDataHashes =
-      components.claimNodes.map((a) => hashMessage(a.attesterSig)).toList();
-  return getBloomMerkleTree(signedDataHashes, components.paddingNodes,
-      hashMessage(components.checksumSig));
+  var signedDataHashes = components.claimNodes.map((a) => hashMessage(a.attesterSig)).toList();
+  return getBloomMerkleTree(signedDataHashes, components.paddingNodes, hashMessage(components.checksumSig));
 }
 
 /// verify
@@ -319,8 +296,7 @@ MerkleTree getMerkleTreeFromComponents(IBloomMerkleTreeComponents components) {
 /// var verified = tree.verify(proof, leaves[2], root)
 ///
 /// standalone verify function taken from https://github.com/miguelmota/merkletreejs
-bool verifyMerkleProof(
-    List<MerkleProof> proofs, Uint8List targetNode, Uint8List root) {
+bool verifyMerkleProof(List<MerkleProof> proofs, Uint8List targetNode, Uint8List root) {
   // Should not succeed with all empty arguments
   // Proof can be empty if single leaf tree
   if (targetNode.isEmpty || root.isEmpty) {
@@ -346,8 +322,7 @@ bool verifyMerkleProof(
   return ListEquality<dynamic>().equals(hash, root);
 }
 
-TypedData getAttestationAgreement(
-    String contractAddress, int chainId, String dataHash, String requestNonce) {
+TypedData getAttestationAgreement(String contractAddress, int chainId, String dataHash, String requestNonce) {
   return TypedData(
     types: {
       "EIP712Domain": [
@@ -375,8 +350,7 @@ TypedData getAttestationAgreement(
   );
 }
 
-bool validateSignedAgreement(String subjectSig, String contractAddress,
-    String dataHash, String nonce, String subject) {
+bool validateSignedAgreement(String subjectSig, String contractAddress, String dataHash, String nonce, String subject) {
   var recoveredEthAddress = recoverTypedSignature(MsgParams(
     data: getAttestationAgreement(contractAddress, 1, dataHash, nonce),
     sig: subjectSig,

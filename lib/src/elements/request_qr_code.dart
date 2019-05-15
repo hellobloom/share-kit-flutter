@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'dart:ui' as ui;
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr/qr.dart';
-import 'package:share_kit/src/elements/utils.dart';
-import 'package:share_kit/src/types.dart';
+
+import 'package:bloom_share_kit/src/elements/utils.dart';
+import 'package:bloom_share_kit/src/types.dart';
 
 class RequestQRCode extends StatelessWidget {
   final RequestData requestData;
@@ -17,8 +18,7 @@ class RequestQRCode extends StatelessWidget {
   RequestQRCode({@required this.requestData, QROptions qrOptions})
       : this.qrOptions = qrOptions ?? QROptions(),
         _qr = QrCode.fromData(
-            data: jsonEncode(requestData.toJson()),
-            errorCorrectLevel: (qrOptions ?? QROptions()).ecLevel) {
+            data: jsonEncode(requestData.toJson()), errorCorrectLevel: (qrOptions ?? QROptions()).ecLevel) {
     _qr.make();
   }
 
@@ -34,8 +34,7 @@ class RequestQRCode extends StatelessWidget {
               padding: EdgeInsets.all(qrOptions.padding),
               child: FutureBuilder<ui.Image>(
                   future: getLogoImage(),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<ui.Image> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<ui.Image> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       var _qrPainter = _QrPainter(
                           qr: _qr,
@@ -60,20 +59,15 @@ class RequestQRCode extends StatelessWidget {
     var cellSize = qrOptions.size / _qr.moduleCount.toDouble();
     var numberOfCellsToCover = (_qr.moduleCount * 0.2).floor();
     var addExtra = numberOfCellsToCover % 2 == 0;
-    var defaultWidth =
-        numberOfCellsToCover * cellSize + (addExtra ? cellSize : 0);
+    var defaultWidth = numberOfCellsToCover * cellSize + (addExtra ? cellSize : 0);
     var dwidth = qrOptions.logoWidth ?? defaultWidth;
     var dheight = qrOptions.logoHeight ?? dwidth;
     var logoSvgDrawable = await svg.fromSvgString(
         getBloomWithLogo(
-            bgColor:
-                '#${(qrOptions.bgColor.value & 0xffffff).toRadixString(16)}',
-            fgColor:
-                '#${(qrOptions.fgColor.value & 0xffffff).toRadixString(16)}'),
+            bgColor: '#${(qrOptions.bgColor.value & 0xffffff).toRadixString(16)}',
+            fgColor: '#${(qrOptions.fgColor.value & 0xffffff).toRadixString(16)}'),
         'bloomLogo');
-    return await logoSvgDrawable
-        .toPicture(size: Size(dwidth, dheight))
-        .toImage(dwidth.round(), dheight.round());
+    return await logoSvgDrawable.toPicture(size: Size(dwidth, dheight)).toImage(dwidth.round(), dheight.round());
   }
 }
 
@@ -182,12 +176,7 @@ class _QrPainter extends CustomPainter {
 
     canvas.save();
     _paint.color = info.color;
-    canvas.drawArc(
-        Rect.fromCircle(center: Offset(centerX, centerY), radius: radius),
-        0,
-        2 * pi,
-        true,
-        _paint);
+    canvas.drawArc(Rect.fromCircle(center: Offset(centerX, centerY), radius: radius), 0, 2 * pi, true, _paint);
     canvas.restore();
   }
 
@@ -196,28 +185,18 @@ class _QrPainter extends CustomPainter {
     double bottom = info.top + 7 * info.size;
 
     _paint.color = info.color;
-    canvas.drawRRect(
-        RRect.fromLTRBR(info.left, info.top, right, bottom, Radius.circular(5)),
-        _paint);
+    canvas.drawRRect(RRect.fromLTRBR(info.left, info.top, right, bottom, Radius.circular(5)), _paint);
 
     _paint.color = Color(0xffffffff);
     canvas.drawRRect(
-        RRect.fromLTRBR(
-            info.left + 1 * info.size,
-            info.top + 1 * info.size,
-            info.left + 6 * info.size,
-            info.top + 6 * info.size,
-            Radius.circular(3)),
+        RRect.fromLTRBR(info.left + 1 * info.size, info.top + 1 * info.size, info.left + 6 * info.size,
+            info.top + 6 * info.size, Radius.circular(3)),
         _paint);
 
     _paint.color = info.color;
     canvas.drawRRect(
-        RRect.fromLTRBR(
-            info.left + 1.8 * info.size,
-            info.top + 1.8 * info.size,
-            info.left + 5.2 * info.size,
-            info.top + 5.2 * info.size,
-            Radius.circular(3)),
+        RRect.fromLTRBR(info.left + 1.8 * info.size, info.top + 1.8 * info.size, info.left + 5.2 * info.size,
+            info.top + 5.2 * info.size, Radius.circular(3)),
         _paint);
   }
 }

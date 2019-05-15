@@ -3,8 +3,8 @@ import 'dart:ui';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:qr/qr.dart';
-import 'package:share_kit/src/attestations_lib/attestation_types.dart'
-    show AttestationTypeID;
+
+import 'package:bloom_share_kit/src/attestations_lib/attestation_types.dart' show AttestationTypeID;
 
 part 'types.g.dart';
 
@@ -33,8 +33,7 @@ class RequestData {
       this.org_privacy_policy_url,
       this.types});
 
-  factory RequestData.fromJson(Map<String, dynamic> json) =>
-      _$RequestDataFromJson(json);
+  factory RequestData.fromJson(Map<String, dynamic> json) => _$RequestDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$RequestDataToJson(this);
 }
