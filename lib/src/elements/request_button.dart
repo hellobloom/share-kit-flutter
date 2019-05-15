@@ -4,9 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:share_kit/src/elements/assets.dart';
 import 'package:share_kit/src/types.dart' show RequestData;
-import 'package:url_launcher/url_launcher.dart';
 
 class RequestButton extends StatelessWidget {
   final RequestData requestData;
@@ -27,11 +28,9 @@ class RequestButton extends StatelessWidget {
       : this.urlLauncher = urlLauncher ?? RequestButtonUrlLauncher(),
         super(key: key) {
     Uri requestDataUri = Uri.parse(requestData.url);
-    Map<String, String> queryParameters =
-        Map.from(requestDataUri.queryParameters);
+    Map<String, String> queryParameters = Map.from(requestDataUri.queryParameters);
     queryParameters.putIfAbsent("share-kit-from", () => "button");
-    this.requestData.url =
-        requestDataUri.replace(queryParameters: queryParameters).toString();
+    this.requestData.url = requestDataUri.replace(queryParameters: queryParameters).toString();
   }
 
   @override
@@ -60,18 +59,13 @@ class RequestButton extends StatelessWidget {
                       ],
                     ),
                     image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: MemoryImage(Assets.backgroundImage),
-                        repeat: ImageRepeat.noRepeat),
+                        fit: BoxFit.fill, image: MemoryImage(Assets.backgroundImage), repeat: ImageRepeat.noRepeat),
                   ),
                 ),
                 Container(
                     margin: EdgeInsets.only(left: 24),
                     child: SvgPicture.string(Assets.lockIconSvg,
-                        width: 20,
-                        height: 20,
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerLeft)),
+                        width: 20, height: 20, fit: BoxFit.scaleDown, alignment: Alignment.centerLeft)),
                 Container(
                     alignment: Alignment.center,
                     child: Row(
@@ -89,10 +83,7 @@ class RequestButton extends StatelessWidget {
                           ),
                         ),
                         SvgPicture.string(Assets.textSvg,
-                            width: 111,
-                            height: 14,
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.center)
+                            width: 111, height: 14, fit: BoxFit.scaleDown, alignment: Alignment.center)
                       ],
                     ))
               ]),

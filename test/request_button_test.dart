@@ -3,15 +3,16 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:share_kit/share_kit.dart';
+import 'package:share_kit/src/elements/request_button.dart';
 
 void main() {
   testWidgets('renders a button', (WidgetTester tester) async {
     await tester.pumpWidget(_TestApp());
     await tester.pumpAndSettle();
     expect(find.byType(RequestButton), findsOneWidget);
-    await expectLater(find.byType(RequestButton),
-        matchesGoldenFile('golden/request_button_test/renders_a_button.png'));
+    await expectLater(find.byType(RequestButton), matchesGoldenFile('golden/request_button_test/renders_a_button.png'));
   });
 
   testWidgets('updates the button', (WidgetTester tester) async {
@@ -23,8 +24,7 @@ void main() {
     expect(testAppState.buttonCallbackUrl, 'http://updated.com');
     await tester.tap(find.byKey(_TestAppState.keyRequestButton));
     await tester.pumpAndSettle();
-    expect(TestUrlLauncher.lanunchedUrl,
-        stringContainsInOrder([Uri.encodeComponent('http://updated.com')]));
+    expect(TestUrlLauncher.lanunchedUrl, stringContainsInOrder([Uri.encodeComponent('http://updated.com')]));
   });
 
   testWidgets('deletes the button', (WidgetTester tester) async {
@@ -37,14 +37,11 @@ void main() {
     await expectLater(find.byType(RequestButton), findsNothing);
   });
 
-  testWidgets('should append share-kit-from=button to requestData.url',
-      (WidgetTester tester) async {
+  testWidgets('should append share-kit-from=button to requestData.url', (WidgetTester tester) async {
     await tester.pumpWidget(_TestApp());
     await tester.pumpAndSettle();
-    RequestButton requestButton =
-        tester.firstWidget(find.byType(RequestButton));
-    expect(requestButton.requestData.url,
-        "https://receive-kit.bloom.co/api/receive?share-kit-from=button");
+    RequestButton requestButton = tester.firstWidget(find.byType(RequestButton));
+    expect(requestButton.requestData.url, "https://receive-kit.bloom.co/api/receive?share-kit-from=button");
   });
 }
 
@@ -54,8 +51,7 @@ class _TestApp extends StatefulWidget {
     return _TestAppState(
         requestData: RequestData(
           action: Action.request_attestation_data,
-          token:
-              'a08714b92346a1bba4262ed575d23de3ff3e6b5480ad0e1c82c011bab0411fdf',
+          token: 'a08714b92346a1bba4262ed575d23de3ff3e6b5480ad0e1c82c011bab0411fdf',
           url: 'https://receive-kit.bloom.co/api/receive',
           org_logo_url: 'https://bloom.co/images/notif/bloom-logo.png',
           org_name: 'Bloom',
@@ -80,8 +76,7 @@ class _TestAppState extends State<_TestApp> {
 
   bool requestButtonDeleted;
 
-  _TestAppState({this.buttonCallbackUrl, this.requestData})
-      : requestButtonDeleted = false;
+  _TestAppState({this.buttonCallbackUrl, this.requestData}) : requestButtonDeleted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -105,13 +100,11 @@ class _TestAppState extends State<_TestApp> {
                             )),
                         GestureDetector(
                             key: keyUpdate,
-                            child: Container(
-                                width: 20, height: 20, child: Text("")),
+                            child: Container(width: 20, height: 20, child: Text("")),
                             onTap: _onUpdateTap),
                         GestureDetector(
                             key: keyDelete,
-                            child: Container(
-                                width: 20, height: 20, child: Text("")),
+                            child: Container(width: 20, height: 20, child: Text("")),
                             onTap: _onDeleteTap)
                       ],
                     )))));
@@ -123,13 +116,13 @@ class _TestAppState extends State<_TestApp> {
     print('updated widget');
   }
 
-  _onUpdateTap() {
+  void _onUpdateTap() {
     setState(() {
       buttonCallbackUrl = "http://updated.com";
     });
   }
 
-  _onDeleteTap() {
+  void _onDeleteTap() {
     setState(() {
       requestButtonDeleted = true;
     });

@@ -15,13 +15,10 @@ RequestData _$RequestDataFromJson(Map<String, dynamic> json) {
       org_name: json['org_name'] as String,
       org_usage_policy_url: json['org_usage_policy_url'] as String,
       org_privacy_policy_url: json['org_privacy_policy_url'] as String,
-      types: (json['types'] as List)
-          ?.map((e) => _$enumDecodeNullable(_$AttestationTypeIDEnumMap, e))
-          ?.toList());
+      types: (json['types'] as List)?.map((e) => _$enumDecodeNullable(_$AttestationTypeIDEnumMap, e))?.toList());
 }
 
-Map<String, dynamic> _$RequestDataToJson(RequestData instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$RequestDataToJson(RequestData instance) => <String, dynamic>{
       'action': _$ActionEnumMap[instance.action],
       'token': instance.token,
       'url': instance.url,
@@ -29,8 +26,7 @@ Map<String, dynamic> _$RequestDataToJson(RequestData instance) =>
       'org_name': instance.org_name,
       'org_usage_policy_url': instance.org_usage_policy_url,
       'org_privacy_policy_url': instance.org_privacy_policy_url,
-      'types':
-          instance.types?.map((e) => _$AttestationTypeIDEnumMap[e])?.toList()
+      'types': instance.types?.map((e) => _$AttestationTypeIDEnumMap[e])?.toList()
     };
 
 T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
@@ -40,8 +36,7 @@ T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
   }
   return enumValues.entries
       .singleWhere((e) => e.value == source,
-          orElse: () => throw ArgumentError(
-              '`$source` is not one of the supported values: '
+          orElse: () => throw ArgumentError('`$source` is not one of the supported values: '
               '${enumValues.values.join(', ')}'))
       .key;
 }
@@ -53,9 +48,7 @@ T _$enumDecodeNullable<T>(Map<T, dynamic> enumValues, dynamic source) {
   return _$enumDecode<T>(enumValues, source);
 }
 
-const _$ActionEnumMap = <Action, dynamic>{
-  Action.request_attestation_data: 'request_attestation_data'
-};
+const _$ActionEnumMap = <Action, dynamic>{Action.request_attestation_data: 'request_attestation_data'};
 
 const _$AttestationTypeIDEnumMap = <AttestationTypeID, dynamic>{
   AttestationTypeID.phone: 'phone',

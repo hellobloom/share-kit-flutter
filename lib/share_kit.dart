@@ -1,5 +1,5 @@
 library share_kit;
 
-export './src/elements/elements.dart';
-export './src/types.dart';
-export './src/attestations_lib/attestations_lib.dart';
+export './src/attestations_lib/attestations_lib.dart' show AttestationTypeID;
+export './src/elements/elements.dart' show RequestButton;
+export './src/types.dart' show RequestData, Action;

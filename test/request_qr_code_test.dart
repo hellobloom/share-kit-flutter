@@ -3,7 +3,9 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:share_kit/share_kit.dart';
+import 'package:share_kit/src/elements/request_qr_code.dart';
 
 void main() {
   testWidgets('renders the qr code', (WidgetTester tester) async {
@@ -11,9 +13,7 @@ void main() {
     await tester.pumpAndSettle();
     await expectLater(find.byType(RequestQRCode), findsOneWidget);
     await expectLater(
-        find.byType(RequestQRCode),
-        matchesGoldenFile(
-            'golden/request_qr_code_test/renders_the_qr_code.png'));
+        find.byType(RequestQRCode), matchesGoldenFile('golden/request_qr_code_test/renders_the_qr_code.png'));
   });
 }
 

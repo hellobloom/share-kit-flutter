@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 import 'package:share_kit/src/attestations_lib/attestation_types.dart';
 
 part 'hashing_logic_types.g.dart';
@@ -25,8 +26,7 @@ class IAttestationData implements JsonEncodable {
 
   IAttestationData({this.data, this.nonce, this.version});
 
-  factory IAttestationData.fromJson(Map<String, dynamic> json) =>
-      _$IAttestationDataFromJson(json);
+  factory IAttestationData.fromJson(Map<String, dynamic> json) => _$IAttestationDataFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IAttestationDataToJson(this);
@@ -45,8 +45,7 @@ class IAttestationType implements JsonEncodable {
 
   IAttestationType({this.type, this.provider, this.nonce});
 
-  factory IAttestationType.fromJson(Map<String, dynamic> json) =>
-      _$IAttestationTypeFromJson(json);
+  factory IAttestationType.fromJson(Map<String, dynamic> json) => _$IAttestationTypeFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IAttestationTypeToJson(this);
@@ -62,8 +61,7 @@ class IClaimNode implements JsonEncodable {
 
   IClaimNode({this.data, this.type, this.aux});
 
-  factory IClaimNode.fromJson(Map<String, dynamic> json) =>
-      _$IClaimNodeFromJson(json);
+  factory IClaimNode.fromJson(Map<String, dynamic> json) => _$IClaimNodeFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IClaimNodeToJson(this);
@@ -101,8 +99,7 @@ class IIssuanceNode implements JsonEncodable {
       this.issuanceDate,
       this.expirationDate});
 
-  factory IIssuanceNode.fromJson(Map<String, dynamic> json) =>
-      _$IIssuanceNodeFromJson(json);
+  factory IIssuanceNode.fromJson(Map<String, dynamic> json) => _$IIssuanceNodeFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IIssuanceNodeToJson(this);
@@ -112,12 +109,10 @@ class IIssuanceNode implements JsonEncodable {
 class IIssuedClaimNode extends IClaimNode implements JsonEncodable {
   IIssuanceNode issuance;
 
-  IIssuedClaimNode(
-      {this.issuance, IAttestationData data, IAttestationType type, String aux})
+  IIssuedClaimNode({this.issuance, IAttestationData data, IAttestationType type, String aux})
       : super(data: data, type: type, aux: aux);
 
-  factory IIssuedClaimNode.fromJson(Map<String, dynamic> json) =>
-      _$IIssuedClaimNodeFromJson(json);
+  factory IIssuedClaimNode.fromJson(Map<String, dynamic> json) => _$IIssuedClaimNodeFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IIssuedClaimNodeToJson(this);
@@ -129,13 +124,9 @@ class ISignedClaimNode implements JsonEncodable {
   String attester;
   String attesterSig;
 
-  ISignedClaimNode(
-      {this.claimNode,
-      this.attester,
-      this.attesterSig}); // Root hash of claim tree signed by attester
+  ISignedClaimNode({this.claimNode, this.attester, this.attesterSig}); // Root hash of claim tree signed by attester
 
-  factory ISignedClaimNode.fromJson(Map<String, dynamic> json) =>
-      _$ISignedClaimNodeFromJson(json);
+  factory ISignedClaimNode.fromJson(Map<String, dynamic> json) => _$ISignedClaimNodeFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$ISignedClaimNodeToJson(this);
@@ -158,8 +149,7 @@ class IRevocationLinks implements JsonEncodable {
 
   IRevocationLinks({this.local, this.global, this.dataHash, this.typeHash});
 
-  factory IRevocationLinks.fromJson(Map<String, dynamic> json) =>
-      _$IRevocationLinksFromJson(json);
+  factory IRevocationLinks.fromJson(Map<String, dynamic> json) => _$IRevocationLinksFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IRevocationLinksToJson(this);
@@ -170,8 +160,7 @@ class IAttestationLegacy extends IClaimNode implements JsonEncodable {
   IAttestationLegacy({IAttestationData data, IAttestationType type, String aux})
       : super(data: data, type: type, aux: aux);
 
-  factory IAttestationLegacy.fromJson(Map<String, dynamic> json) =>
-      _$IAttestationLegacyFromJson(json);
+  factory IAttestationLegacy.fromJson(Map<String, dynamic> json) => _$IAttestationLegacyFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IAttestationLegacyToJson(this);
@@ -181,12 +170,10 @@ class IAttestationLegacy extends IClaimNode implements JsonEncodable {
 class IAttestationNode extends IAttestationLegacy implements JsonEncodable {
   IRevocationLinks link;
 
-  IAttestationNode(
-      {this.link, IAttestationData data, IAttestationType type, String aux})
+  IAttestationNode({this.link, IAttestationData data, IAttestationType type, String aux})
       : super(data: data, type: type, aux: aux);
 
-  factory IAttestationNode.fromJson(Map<String, dynamic> json) =>
-      _$IAttestationNodeFromJson(json);
+  factory IAttestationNode.fromJson(Map<String, dynamic> json) => _$IAttestationNodeFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IAttestationNodeToJson(this);
@@ -199,8 +186,7 @@ class IDataNode {
 
   IDataNode(this.attestationNode, this.signedAttestation);
 
-  factory IDataNode.fromJson(Map<String, dynamic> json) =>
-      _$IDataNodeFromJson(json);
+  factory IDataNode.fromJson(Map<String, dynamic> json) => _$IDataNodeFromJson(json);
 
   Map<String, dynamic> toJson() => _$IDataNodeToJson(this);
 }
@@ -210,12 +196,9 @@ class IDataNodeLegacy implements JsonEncodable {
   IAttestationNode attestationNode;
   String signedAttestation;
 
-  IDataNodeLegacy(
-      {this.attestationNode,
-      this.signedAttestation}); // Root hash of Attestation tree signed by attester
+  IDataNodeLegacy({this.attestationNode, this.signedAttestation}); // Root hash of Attestation tree signed by attester
 
-  factory IDataNodeLegacy.fromJson(Map<String, dynamic> json) =>
-      _$IDataNodeLegacyFromJson(json);
+  factory IDataNodeLegacy.fromJson(Map<String, dynamic> json) => _$IDataNodeLegacyFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IDataNodeLegacyToJson(this);
@@ -244,16 +227,14 @@ class IBloomMerkleTreeComponents implements JsonEncodable {
       this.rootHashNonce,
       this.version});
 
-  factory IBloomMerkleTreeComponents.fromJson(Map<String, dynamic> json) =>
-      _$IBloomMerkleTreeComponentsFromJson(json);
+  factory IBloomMerkleTreeComponents.fromJson(Map<String, dynamic> json) => _$IBloomMerkleTreeComponentsFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$IBloomMerkleTreeComponentsToJson(this);
 }
 
 @JsonSerializable(nullable: false)
-class IBloomBatchMerkleTreeComponents extends IBloomMerkleTreeComponents
-    implements JsonEncodable {
+class IBloomBatchMerkleTreeComponents extends IBloomMerkleTreeComponents implements JsonEncodable {
   String batchAttesterSig;
   String batchLayer2Hash; // Hash of attester sig and subject sig
   String contractAddress;
@@ -292,8 +273,7 @@ class IBloomBatchMerkleTreeComponents extends IBloomMerkleTreeComponents
       _$IBloomBatchMerkleTreeComponentsFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$IBloomBatchMerkleTreeComponentsToJson(this);
+  Map<String, dynamic> toJson() => _$IBloomBatchMerkleTreeComponentsToJson(this);
 }
 
 @JsonSerializable(nullable: false)
@@ -303,8 +283,7 @@ class ITypedDataParam implements JsonEncodable {
 
   ITypedDataParam({this.name, this.type});
 
-  factory ITypedDataParam.fromJson(Map<String, dynamic> json) =>
-      _$ITypedDataParamFromJson(json);
+  factory ITypedDataParam.fromJson(Map<String, dynamic> json) => _$ITypedDataParamFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$ITypedDataParamToJson(this);
@@ -312,5 +291,5 @@ class ITypedDataParam implements JsonEncodable {
 
 enum ChainName { Main, Rinkedby }
 
-final Map<ChainName, int> ChainId = Map.unmodifiable(Map<ChainName, int>.from(
-    <ChainName, int>{ChainName.Main: 1, ChainName.Rinkedby: 4}));
+final Map<ChainName, int> ChainId =
+    Map.unmodifiable(Map<ChainName, int>.from(<ChainName, int>{ChainName.Main: 1, ChainName.Rinkedby: 4}));

@@ -3,6 +3,7 @@ include: package:pedantic/analysis_options.yaml
 linter:
   rules:
     - camel_case_types
+    - directives_ordering
 
 analyzer:
   strong-mode:
@@ -11,4 +12,3 @@ analyzer:
   exclude:
     # ignore generated files and tests
     - "**/*.g.dart"
-    - "test/**"
