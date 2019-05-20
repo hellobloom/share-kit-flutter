@@ -23,10 +23,7 @@ dependencies:
   json_serializable: ^2.0.0
   flutter_svg: ^0.12.4
   url_launcher: ^5.0.2
-  qr:
-    git:
-      url: "https://github.com/kevmoo/qr.dart.git"
-      ref: "5188191939a6562cdf42d9a26cb34111dc07ef22"
+  qr: ^1.1.1
   convert: ^2.1.1
 
 dev_dependencies:
