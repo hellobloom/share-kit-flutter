@@ -1,3 +1,7 @@
+:warning: **_Notice_** :warning:
+
+This library is no longer maintained.
+
 ![Share Kit Flutter](https://github.com/hellobloom/share-kit/raw/master/images/logo.png)
 
 # Share Kit Flutter
